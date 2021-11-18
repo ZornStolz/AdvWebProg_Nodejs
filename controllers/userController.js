@@ -7,10 +7,11 @@ const jwt = require('jsonwebtoken')
 
 /* creates a new user because a post method */
 exports.create = async (req, res, next) => {
-    
-    const userExist = await User.findOne({id:req.body.id})
+    /* 
+    const userExist = User.findOne({id:req.body.id})
     if (userExist)
         return res.status("409").send("the user already exists")
+    //*/
 
     //encrypt password
     let encryPswd = await bcrypt.hash(req.body.password, 10)
@@ -23,6 +24,8 @@ exports.create = async (req, res, next) => {
         name : req.body.name,
         surname : req.body.surname,
         photo : req.body.photo,
+        active : req.body.active,
+        token : req.body.token
     })
 
     //saves on the db the new user
@@ -34,8 +37,8 @@ exports.create = async (req, res, next) => {
 }
 
 /* finds all the users because a get method */
-exports.findAll = async (req, res, next) => {
-    await User.find({}, (err, user) => {
+exports.findAll = (req, res, next) => {
+    User.find({}, (err, user) => {
         if (err)
             return next(err)
         res.send(user)
@@ -43,8 +46,8 @@ exports.findAll = async (req, res, next) => {
 }
 
 /* finds a user by their id because a get method with id as a parameter*/
-exports.findbyId = async (req, res, next) => {
-    await User.findOne({id:req.params.id}, (err, user) => {
+exports.findbyId = (req, res, next) => {
+    User.findOne({id:req.params.id}, (err, user) => {
         if (err)
             return next(err)
         res.send(user)
@@ -54,30 +57,31 @@ exports.findbyId = async (req, res, next) => {
 /* authenticates an user with an user and password */
 exports.login = async (req, res, next) => {
 
-    let {userId, userPswd} = req.body
+    const {id, password} = req.body
 
     //check that there are values in id and password to log in
-    if (!userId || !userPswd){
+    if (!id || !password){
         res.status(400).send("id or password not valid")
     }
 
     //check if the user exists and if the password is valid
-    var user = await User.findOne({id: userID})
-    if (user && await bcrypt.compare(userPswd, user.password)){
+    const user = await User.findOne({id})
+
+    if (user && await bcrypt.compare(password, user.password)){
         //Creation of the token and set as active the user
         const token = jwt.sign({id:user.id}, "llave:asdfghjkl", {expiresIn:"2h"})
-        user.token = token;
-        user.active = true;
+        await User.findOneAndUpdate({id}, {token:token, active:"true"})
 
         res.status("200").send( user.name + " " + user.surname + " has logged succesfully with token: " + token)
     } else {
         res.status("400").send("Invalid credentials")
     }
+
 }
 
 /* deletes an user by id because of a DELETE method */
-exports.delete = async (req, res, next) => {
-    await User.findOneAndDelete({id:req.params.id}, (err, user) => {
+exports.delete = (req, res, next) => {
+    User.findOneAndDelete({id:req.params.id}, (err, user) => {
         if (err)
             return next(err)
         res.send( user.name + " " + user.surname + " identified with " + user.id +  " was succesfully eliminated")
@@ -89,7 +93,7 @@ it means, only what is given in the body will be updated and everything else wil
 exports.update = async (req, res, next) => {
     
     //I have to validate which fields i'm gonna update
-    var oldUser = await User.findOne({id:req.params.id})
+    var oldUser = User.findOne({id:req.params.id})
     
     var n_id = oldUser.id
     var n_idtype = oldUser.idtype
@@ -106,7 +110,7 @@ exports.update = async (req, res, next) => {
         n_idtype = req.body.idtype
 
     if (req.body.password != null)
-        n_password = req.body.password
+        n_password =  await bcrypt.hash(req.body.password, 10)
 
     if (req.body.name != null)
         n_name = req.body.name

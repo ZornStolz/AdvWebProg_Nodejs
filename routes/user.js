@@ -11,14 +11,17 @@ router.get('/', userController.findAll)
 /* GET: get an user by id */
 router.get('/:id', userController.findbyId);
 
-/* POST: add a new user*/
-router.post('/add', userController.create)
+/* POST: add a new user uses the body*/
+router.post('/', userController.create)
 
 /* PUT: update an user by id*/
-router.put('/update/:id', userController.update)
+router.put('/:id', userController.update)
 
 /* DELETE: deletes an user by id*/
-router.delete('/delete/:id', userController.delete)
+router.delete('/:id', userController.delete)
+
+/* POST: log an user in and gets authenticated uses the body for it*/
+router.post('/login', userController.login)
 
 /* CRUD nota*/
 
