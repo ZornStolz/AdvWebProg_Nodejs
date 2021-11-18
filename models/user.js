@@ -3,13 +3,14 @@ const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
 
 let UserSchema = Schema ({
-    id : {type:String, require:true, max:50},
-    idtype : {type:String, require:true, max:50},
-    password : {type:String, require:true, max:50},
-    name : {type:String, require:true, max:50},
-    surname : {type:String, require:true, max:50},
-    photo : {type:String, require:true, max:1000},
-    active : {type:String, require:true, max:10}
+    id : {type:String, require:true},
+    idtype : {type:String, require:true},
+    password : {type:String, require:true},
+    token: {type:String, require:true},
+    name : {type:String, require:true},
+    surname : {type:String, require:true},
+    photo : {type:String, require:true},
+    active : {type:String, require:true}
 })
 
 module.exports = mongoose.model('User', UserSchema)
