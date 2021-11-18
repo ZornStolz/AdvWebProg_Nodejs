@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken')
 
 /* creates a new user because a post method */
 exports.create = async (req, res, next) => {
-    /* 
-    const userExist = User.findOne({id:req.body.id})
+    //* 
+    const userExist = await User.findOne({id:req.body.id})
     if (userExist)
         return res.status("409").send("the user already exists")
     //*/
