@@ -12,6 +12,7 @@ exports.create = async (req, res, next) => {
     if (userExist)
         return res.status("409").send("the user already exists")
 
+    //encrypt password
     let encryPswd = await bcrypt.hash(req.body.password, 10)
 
     //creates an user with the information given by the body of the post
@@ -55,12 +56,15 @@ exports.login = async (req, res, next) => {
 
     let {userId, userPswd} = req.body
 
+    //check that there are values in id and password to log in
     if (!userId || !userPswd){
         res.status(400).send("id or password not valid")
     }
 
+    //check if the user exists and if the password is valid
     var user = await User.findOne({id: userID})
     if (user && await bcrypt.compare(userPswd, user.password)){
+        //Creation of the token and set as active the user
         const token = jwt.sign({id:user.id}, "llave:asdfghjkl", {expiresIn:"2h"})
         user.token = token;
         user.active = true;
