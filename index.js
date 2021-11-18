@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
+const port = 8080
 
-app.get('/', function (req, res) {
-  res.send('hello world')
+//status
+app.get('/status', (req, res) => {
+  res.send('API Online')
 })
 
-app.listen(8080)
+app.listen(port, ()=> {console.log("Api is listening on port: " + port);})
