@@ -1,0 +1,23 @@
+{
+  "name": "app-notas",
+  "version": "1.0.0",
+  "description": "taller de app node js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZornStolz/AdvWebProg_Nodejs.git"
+  },
+  "author": "Vera Juan & Mejia Fabio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZornStolz/AdvWebProg_Nodejs/issues"
+  },
+  "homepage": "https://github.com/ZornStolz/AdvWebProg_Nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
