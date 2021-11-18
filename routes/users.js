@@ -1,5 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
+const userController = require('../controllers/user')
 
 //dummy user form db
 let user1 = {
@@ -58,9 +59,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* POST: add a new user*/
-router.post('/add', function(req, res, next) {
-  res.send(req.body);
-});
+router.post('/add', userController.create)
 
 /* PUT: update an user by id*/
 router.put('/update/:id', function(req, res, next) {
