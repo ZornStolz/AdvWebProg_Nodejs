@@ -22,7 +22,6 @@ exports.create = async (req, res, next) => {
         name : req.body.name,
         surname : req.body.surname,
         photo : req.body.photo,
-        active : req.body.active
     })
 
     //saves on the db the new user
