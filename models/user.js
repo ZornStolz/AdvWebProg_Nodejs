@@ -1,12 +1,7 @@
 const mongoose = require ('mongoose')
 
 const Schema = mongoose.Schema
-
-let NotaSchema = Schema ({
-    id : {type:String, require:true, max:50},
-    title : {type:String, require:true, max:50},
-    comment : {type:String, require:true, max:1000}
-})
+var NotaSchema = require('./nota')
 
 let UserSchema = Schema ({
     id : {type:String, require:true, max:50},
@@ -16,7 +11,7 @@ let UserSchema = Schema ({
     surname : {type:String, require:true, max:50},
     photo : {type:String, require:true, max:1000},
     active : {type:String, require:true, max:10},
-    notas : [NotaSchema]
+    notas : [NotaSchema.schema]
 })
 
 module.exports = mongoose.model('User', UserSchema)
