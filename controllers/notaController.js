@@ -1,4 +1,5 @@
 const Nota = require('../models/nota')
+const User = require('../models/user')
 
 exports.create = (req, res, next) => {
     //creates an user with the information given by the body of the post
@@ -37,18 +38,29 @@ exports.findbyId = (req, res, next) => {
     })
 }
 
+/* delete a nota by id if the user is authenticated  */
 exports.delete = (req, res, next) => {
+    let user =User.findOne({id:req.params.id})
+    if(user.active){
     Nota.findByIdAndDelete(req.params.id, (err, nota) => {
         if (err)
             return next(err)
         res.send( nota.title + " identified with " + nota.id +  " was succesfully eliminated")
-    })
+    })}
+    else{
+        res.send("Unauthenticated user")
+    }
 }
-
+/* modify a nota by id if the user is authenticated*/
 exports.update = (req, res, next)=>{
+    let user =User.findOne({id:req.params.id})
+    if(user.active){
     Nota.findByIdAndUpdate(req.params.id, req.body, (err, nota)=>{
         if (err)
             return next(err)
         res.send( nota.title + " identified with " + nota.id +  " was succesfully modified")
-    })
+    })}
+    else{   
+        res.send("Unauthenticated userUsuario no autenticado")
+    }
 }
