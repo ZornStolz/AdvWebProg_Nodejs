@@ -1,7 +1,6 @@
 //controls all the access to the database
 
 const User = require('../models/user')
-const Nota = require('../models/nota')
 
 /* creates a new user because a post method */
 exports.create = (req, res, next) => {
@@ -14,8 +13,7 @@ exports.create = (req, res, next) => {
         name : req.body.name,
         surname : req.body.surname,
         photo : req.body.photo,
-        active : req.body.active,
-        notas : []
+        active : req.body.active
     })
 
     //saves on the db the new user
@@ -41,6 +39,15 @@ exports.findbyId = (req, res, next) => {
         if (err)
             return next(err)
         res.send(user)
+    })
+}
+
+/* deletes an user by id because of a DELETE method */
+exports.delete = (req, res, next) => {
+    User.findOneAndDelete({id:req.params.id}, (err, user) => {
+        if (err)
+            return next(err)
+        res.send( user.name + " " + user.surname + " identified with " + user.id +  " was succesfully eliminated")
     })
 }
 
@@ -111,11 +118,11 @@ exports.update = (req, res, next) => {
             if (err)
             return next(err)
         })
-    
+
     User.findOneAndUpdate({id:req.params.id}, {active: n_active}, (err, user) => {
             if (err)
             return next(err)
         })
-        
+
     res.send("Update made succesfully")
 }
