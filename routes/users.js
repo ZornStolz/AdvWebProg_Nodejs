@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/controller')
+const notacontroller = require('../controllers/notacontroller')
 
 /* GET: get all users*/
 router.get('/', controller.findAll)
@@ -18,6 +19,10 @@ router.put('/update/:id', controller.update)
 router.delete('/delete/:id', function(req, res, next) {
   //find id, delete on data base
   res.send("the user with the id " + req.params.id + " was deleted succesfully");
+
+// CRUD for nota
+
+router.get('/:userid/routes',)
 });
 
 
