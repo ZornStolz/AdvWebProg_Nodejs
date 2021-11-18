@@ -38,6 +38,7 @@ exports.findbyId = (req, res, next) => {
     })
 }
 
+/* delete a nota by id if the user is authenticated  */
 exports.delete = (req, res, next) => {
     let user =User.findOne({id:req.params.id})
     if(user.active){
@@ -47,10 +48,10 @@ exports.delete = (req, res, next) => {
         res.send( nota.title + " identified with " + nota.id +  " was succesfully eliminated")
     })}
     else{
-        res.send("Usuario no autenticado")
+        res.send("Unauthenticated user")
     }
 }
-
+/* modify a nota by id if the user is authenticated*/
 exports.update = (req, res, next)=>{
     let user =User.findOne({id:req.params.id})
     if(user.active){
@@ -59,7 +60,7 @@ exports.update = (req, res, next)=>{
             return next(err)
         res.send( nota.title + " identified with " + nota.id +  " was succesfully modified")
     })}
-    else{
-        res.send("Usuario no autenticado")
+    else{   
+        res.send("Unauthenticated userUsuario no autenticado")
     }
 }
